@@ -1,118 +1,112 @@
-/* =========================================
-   KOMRADE BABE'S SECRET WORLD ❤️
-========================================= */
+const enterBtn = document.getElementById("enterBtn");
+const welcomeScreen = document.getElementById("welcomeScreen");
+const mainWorld = document.getElementById("mainWorld");
+const appPages = document.getElementById("appPages");
 
-
-const enterBtn =
-    document.getElementById("enterBtn");
-
-const welcomeScreen =
-    document.getElementById("welcomeScreen");
-
-const mainWorld =
-    document.getElementById("mainWorld");
-
-const appPages =
-    document.getElementById("appPages");
-
-
-/* =========================================
-   PAGE DATA
-========================================= */
-
-const pageMap = {
-
+const pages = {
     love: "lovePage",
-
     play: "playPage",
-
     boredom: "boredomPage",
-
     mood: "moodPage",
-
     secret: "secretPage",
-
     memories: "memoriesPage"
-
 };
 
 
-/* =========================================
-   CURRENT PAGE
-========================================= */
+/* ENTER WEBSITE */
 
-let currentPage =
-    sessionStorage.getItem("currentPage")
-    || "home";
+enterBtn.addEventListener("click", function () {
 
+    welcomeScreen.classList.add("hidden");
+    mainWorld.classList.remove("hidden");
 
-/* =========================================
-   ENTER WEBSITE
-========================================= */
+    sessionStorage.setItem("currentPage", "home");
 
-enterBtn.addEventListener("click", () => {
-
-    welcomeScreen.style.opacity = "0";
-
-    welcomeScreen.style.transform =
-        "scale(1.05)";
-
-
-    setTimeout(() => {
-
-        welcomeScreen.classList.add("hidden");
-
-        mainWorld.classList.remove("hidden");
-
-        navigateTo("home", true);
-
-    }, 500);
+    history.replaceState(
+        { page: "home" },
+        "",
+        "#home"
+    );
 
 });
 
 
-/* =========================================
-   NAVIGATION
-========================================= */
+/* OPEN A PAGE */
 
-function navigateTo(
-    page,
-    addHistory = true
-) {
+function showComingSoon(zone) {
 
-    currentPage = page;
+    const zonePages = {
+
+        "Love Zone ❤️": "love",
+        "Play Zone 🎮": "play",
+        "Boredom Killer 😂": "boredom",
+        "Mood Room 🌙": "mood",
+        "Secret Zone 👀": "secret",
+        "Our Memories 📸": "memories"
+
+    };
+
+    const page = zonePages[zone];
+
+    if (!page) return;
+
+    openPage(page);
+
+}
+
+
+/* PAGE SYSTEM */
+
+function openPage(page) {
+
+    const pageId = pages[page];
+
+    if (!pageId) return;
+
+    mainWorld.classList.add("hidden");
+
+    appPages.classList.remove("hidden");
+
+    document
+        .querySelectorAll(".app-page")
+        .forEach(function (element) {
+            element.classList.remove("active");
+        });
+
+    const selectedPage =
+        document.getElementById(pageId);
+
+    selectedPage.classList.add("active");
 
     sessionStorage.setItem(
         "currentPage",
         page
     );
 
-
-    if (addHistory) {
-
-        history.pushState(
-            { page: page },
-            "",
-            "#" + page
-        );
-
-    }
-
-
-    renderPage(page);
+    history.pushState(
+        { page: page },
+        "",
+        "#" + page
+    );
 
 }
 
 
-/* =========================================
-   RENDER PAGE
-========================================= */
+/* BACK BUTTON */
 
-function renderPage(page) {
+function goBack() {
 
-    /*
-       HOME
-    */
+    history.back();
+
+}
+
+
+/* PHONE BACK BUTTON */
+
+window.addEventListener("popstate", function (event) {
+
+    const page =
+        event.state?.page || "home";
 
     if (page === "home") {
 
@@ -122,370 +116,101 @@ function renderPage(page) {
 
         document
             .querySelectorAll(".app-page")
-            .forEach(page => {
-
-                page.classList.remove("active");
-
+            .forEach(function (element) {
+                element.classList.remove("active");
             });
 
-        return;
+        sessionStorage.setItem(
+            "currentPage",
+            "home"
+        );
 
+        return;
     }
 
+    openPageWithoutHistory(page);
 
-    /*
-       APP PAGE
-    */
+});
+
+
+/* OPEN PAGE WITHOUT CREATING NEW HISTORY */
+
+function openPageWithoutHistory(page) {
+
+    const pageId = pages[page];
+
+    if (!pageId) return;
 
     mainWorld.classList.add("hidden");
 
     appPages.classList.remove("hidden");
 
-
     document
         .querySelectorAll(".app-page")
-        .forEach(pageElement => {
-
-            pageElement.classList.remove("active");
-
+        .forEach(function (element) {
+            element.classList.remove("active");
         });
 
-
-    const pageId =
-        pageMap[page];
-
-
-    if (pageId) {
-
-        const selected =
-            document.getElementById(pageId);
-
-        if (selected) {
-
-            selected.classList.add("active");
-
-        }
-
-    }
-
-}
-
-
-/* =========================================
-   GO BACK
-========================================= */
-
-function goBack() {
-
-    history.back();
-
-}
-
-
-/* =========================================
-   PHONE BACK BUTTON
-========================================= */
-
-window.addEventListener(
-    "popstate",
-    event => {
-
-        let page = "home";
-
-
-        if (
-            event.state &&
-            event.state.page
-        ) {
-
-            page =
-                event.state.page;
-
-        } else {
-
-            const hash =
-                window.location.hash
-                    .replace("#", "");
-
-
-            if (pageMap[hash]) {
-
-                page = hash;
-
-            }
-
-        }
-
-
-        currentPage = page;
-
-
-        sessionStorage.setItem(
-            "currentPage",
-            page
-        );
-
-
-        renderPage(page);
-
-    }
-);
-
-
-/* =========================================
-   LOAD PAGE AFTER REFRESH
-========================================= */
-
-function loadInitialPage() {
-
-    const hash =
-        window.location.hash
-            .replace("#", "");
-
-
-    if (pageMap[hash]) {
-
-        currentPage = hash;
-
-    }
-
+    document
+        .getElementById(pageId)
+        .classList.add("active");
 
     sessionStorage.setItem(
         "currentPage",
-        currentPage
+        page
     );
-
-
-    if (currentPage === "home") {
-
-        return;
-
-    }
-
-
-    /*
-       Skip welcome screen when
-       refreshing inside a page.
-    */
-
-    welcomeScreen.classList.add(
-        "hidden"
-    );
-
-    mainWorld.classList.add(
-        "hidden"
-    );
-
-    appPages.classList.remove(
-        "hidden"
-    );
-
-
-    renderPage(currentPage);
 
 }
 
 
-/* =========================================
-   FEATURE CARD CONNECTION
-========================================= */
+/* REFRESH PERSISTENCE */
 
-function showComingSoon(zone) {
+window.addEventListener("load", function () {
 
-    const zones = {
+    const hash =
+        window.location.hash.replace("#", "");
 
-        "Love Zone ❤️":
-            "love",
+    if (pages[hash]) {
 
-        "Play Zone 🎮":
-            "play",
+        welcomeScreen.classList.add("hidden");
 
-        "Boredom Killer 😂":
-            "boredom",
+        mainWorld.classList.add("hidden");
 
-        "Mood Room 🌙":
-            "mood",
+        appPages.classList.remove("hidden");
 
-        "Secret Zone 👀":
-            "secret",
-
-        "Our Memories 📸":
-            "memories"
-
-    };
-
-
-    const page =
-        zones[zone];
-
-
-    if (page) {
-
-        navigateTo(page);
+        openPageWithoutHistory(hash);
 
     }
 
-}
+});
 
 
-/* =========================================
-   LOVE SURPRISE
-========================================= */
+/* TEMPORARY BUTTONS */
 
 function loveSurprise() {
-
-    const messages = [
-
-        "You are somebody's favorite notification. ❤️",
-
-        "Komrade Blaq thinks you're beautiful. Don't argue. 😂❤️",
-
-        "Somebody somewhere is smiling because you exist. 🥹",
-
-        "This website wouldn't exist if you weren't special. ❤️",
-
-        "Okay babe... enough smiling. 😂❤️"
-
-    ];
-
-
-    const message =
-        messages[
-            Math.floor(
-                Math.random()
-                * messages.length
-            )
-        ];
-
-
-    alert(message);
-
+    alert("❤️ Komrade Blaq says you're special.");
 }
-
-
-/* =========================================
-   BOREDOM KILLER
-========================================= */
-
-function randomChallenge() {
-
-    const challenges = [
-
-        "Send Komrade Blaq a random selfie. 😂",
-
-        "Describe your current mood using only 3 emojis.",
-
-        "Close your eyes and think about your favorite memory with me. ❤️",
-
-        "Send me the first thought that enters your head. 👀",
-
-        "Dance for 10 seconds. Nobody needs to know. 😂",
-
-        "Tell me one thing you want us to do together someday. ❤️"
-
-    ];
-
-
-    const challenge =
-        challenges[
-            Math.floor(
-                Math.random()
-                * challenges.length
-            )
-        ];
-
-
-    alert(
-        "🎯 YOUR CHALLENGE\n\n"
-        + challenge
-    );
-
-}
-
-
-/* =========================================
-   MOOD SYSTEM
-========================================= */
-
-function selectMood(mood) {
-
-    const responses = {
-
-        happy:
-            "I knew you were going to choose this one. 😍 Keep smiling ❤️",
-
-        bored:
-            "Bored?! 😭 Okay. Komrade Blaq has work to do. 😂",
-
-        sad:
-            "Come here 🥺❤️ You don't have to pretend you're okay.",
-
-        romantic:
-            "Omooo 👀❤️ Somebody is feeling romantic tonight.",
-
-        angry:
-            "Who offended my babe? 😤😂",
-
-        playful:
-            "Ahhh 😂 I can already see trouble coming."
-
-    };
-
-
-    alert(
-        responses[mood]
-    );
-
-}
-
-
-/* =========================================
-   SECRET ZONE
-========================================= */
-
-function secretMessage() {
-
-    alert(
-        "🤫 SECRET FOUND\n\n"
-        + "Komrade Blaq left this here:\n\n"
-        + "You are more special than you probably realize. ❤️"
-    );
-
-}
-
-
-/* =========================================
-   MEMORY SURPRISE
-========================================= */
-
-function memorySurprise() {
-
-    alert(
-        "📸 MEMORY\n\n"
-        + "This section is going to become our "
-        + "interactive memory timeline. ❤️"
-    );
-
-}
-
-
-/* =========================================
-   START QUIZ
-========================================= */
 
 function startQuiz() {
-
-    alert(
-        "🎮 GAME STARTING...\n\n"
-        + "Next update: the full "
-        + "How Well Do You Know Komrade Blaq? game. 👀🔥"
-    );
-
+    alert("🎮 QUIZ LOADING...");
 }
 
+function randomChallenge() {
+    alert("😂 Your challenge is coming...");
+}
 
-/* =========================================
-   START
-========================================= */
+function selectMood(mood) {
+    alert("Your mood: " + mood);
+}
 
-loadInitialPage();
+function secretMessage() {
+    alert("🤫 You found the secret.");
+}
+
+function memorySurprise() {
+    alert("📸 Memory section coming...");
+}
+
+function showLoveMessage() {
+    alert("❤️ A little message from Komrade Blaq.");
+}
