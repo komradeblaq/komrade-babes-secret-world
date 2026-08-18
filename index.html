@@ -1,1 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <title>Komrade Babe's Secret World ❤️</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Floating background hearts -->
+    <div class="hearts"></div>
+
+    <!-- Welcome Screen -->
+    <section id="welcomeScreen" class="screen active">
+
+        <div class="welcome-card">
+
+            <div class="heart-icon">❤️</div>
+
+            <p class="small-text">A secret place made specially for</p>
+
+            <h1>
+                Komrade<br>
+                <span>Babe's Secret World</span>
+            </h1>
+
+            <p class="welcome-message">
+                A little corner of the internet where boredom
+                is not allowed. 😌❤️
+            </p>
+
+            <button id="enterBtn">
+                Enter My World ✨
+            </button>
+
+            <p class="secret-text">
+                ⚠️ Warning: You might smile too much.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- Main Website -->
+    <main id="mainWorld" class="hidden">
+
+        <header class="top-bar">
+
+            <div>
+                <p class="mini-title">WELCOME BACK ❤️</p>
+                <h2>Hey Babe 👋🏽</h2>
+            </div>
+
+            <div class="profile-heart">
+                ❤️
+            </div>
+
+        </header>
+
+
+        <section class="hero">
+
+            <p class="glow-text">YOUR LITTLE SECRET PLACE</p>
+
+            <h1>
+                What are we<br>
+                doing today? 👀
+            </h1>
+
+            <p>
+                Pick something. You can't be bored here. 😂❤️
+            </p>
+
+        </section>
+
+
+        <!-- Feature Cards -->
+        <section class="features">
+
+            <div class="feature-card pink" onclick="showComingSoon('Love Zone ❤️')">
+                <span>💗</span>
+                <h3>Love Zone</h3>
+                <p>Sweet things waiting for you.</p>
+            </div>
+
+
+            <div class="feature-card purple" onclick="showComingSoon('Play Zone 🎮')">
+                <span>🎮</span>
+                <h3>Play Zone</h3>
+                <p>Let's see how well you know me.</p>
+            </div>
+
+
+            <div class="feature-card cyan" onclick="showComingSoon('Boredom Killer 😂')">
+                <span>😂</span>
+                <h3>Boredom Killer</h3>
+                <p>Absolutely no boredom allowed.</p>
+            </div>
+
+
+            <div class="feature-card orange" onclick="showComingSoon('Secret Zone 👀')">
+                <span>👀</span>
+                <h3>Secret Zone</h3>
+                <p>Some things are better discovered.</p>
+            </div>
+
+
+            <div class="feature-card blue" onclick="showComingSoon('Mood Room 🌙')">
+                <span>🌙</span>
+                <h3>Mood Room</h3>
+                <p>Tell me how you're feeling.</p>
+            </div>
+
+
+            <div class="feature-card red" onclick="showComingSoon('Our Memories 📸')">
+                <span>📸</span>
+                <h3>Our Memories</h3>
+                <p>Little moments that matter.</p>
+            </div>
+
+        </section>
+
+
+        <section class="love-box">
+
+            <div class="sparkle">✨</div>
+
+            <h2>One little reminder...</h2>
+
+            <p>
+                Somewhere in Abuja, one stubborn boy called
+                Komrade Blaq is probably thinking about you. 😂❤️
+            </p>
+
+            <button onclick="showLoveMessage()">
+                Tap Me 👀
+            </button>
+
+        </section>
+
+
+        <footer>
+            Made with ❤️ by <strong>Komrade Blaq</strong>
+        </footer>
+
+    </main>
+
+
+    <!-- Pop-up -->
+    <div id="popup" class="popup hidden">
+
+        <div class="popup-card">
+
+            <button class="close-btn" onclick="closePopup()">×</button>
+
+            <div id="popupIcon">❤️</div>
+
+            <h2 id="popupTitle">Hello Babe</h2>
+
+            <p id="popupMessage">
+                Something special is waiting for you.
+            </p>
+
+            <button onclick="closePopup()">
+                Okayyy 😂❤️
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <script src="script.js"></script>
+
+</body>
+</html>
